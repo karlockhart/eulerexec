@@ -45,8 +45,7 @@ func Format(body []byte) ([]byte, error) {
 	}
 	logrus.Info(f)
 
-	cmd := viper.GetString("gocmd")
-	out, e := exec.Command(cmd, "fmt", f).CombinedOutput()
+	out, e := exec.Command("sudo", "-u", "eulerexec", "/usr/local/go/bin/go", "fmt", f).CombinedOutput()
 
 	if e != nil {
 		logrus.Info(e.Error)
@@ -70,8 +69,7 @@ func Run(body []byte) ([]byte, error) {
 	}
 	logrus.Info(f)
 
-	cmd := viper.GetString("gocmd")
-	out, e := exec.Command(cmd, "run", f).CombinedOutput()
+	out, e := exec.Command("sudo", "-u", "eulerexec", "/usr/local/go/bin/go", "run", f).CombinedOutput()
 
 	if e != nil {
 		logrus.Info(e.Error)
