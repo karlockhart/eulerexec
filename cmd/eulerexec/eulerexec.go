@@ -3,8 +3,8 @@ package main
 import (
 	"sync"
 
-	"github.com/coderzer0h/eulerexec/pkg/api"
-	"github.com/coderzer0h/eulerexec/pkg/config"
+	"github.com/karlockhart/eulerexec/pkg/api"
+	"github.com/karlockhart/eulerexec/pkg/config"
 )
 
 func main() {

@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"sync"
 
-	"github.com/coderzer0h/eulerexec/pkg/host"
+	"github.com/karlockhart/eulerexec/pkg/host"
 
 	"github.com/labstack/echo"
 )
