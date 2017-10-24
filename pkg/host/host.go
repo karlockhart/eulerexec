@@ -45,11 +45,13 @@ func Format(body []byte) ([]byte, error) {
 	}
 	logrus.Info(f)
 
-	out, e := exec.Command("go", "fmt", f).Output()
+	cmd := viper.GetString("gocmd")
+	out, e := exec.Command(cmd, "fmt", f).CombinedOutput()
 
 	if e != nil {
 		logrus.Info(e.Error)
-		return nil, e
+		logrus.Info(string(out))
+		return nil, fmt.Errorf("%s - %s", e.Error(), string(out))
 	}
 	logrus.Info(string(out))
 
@@ -59,4 +61,24 @@ func Format(body []byte) ([]byte, error) {
 	}
 
 	return formatted, nil
+}
+
+func Run(body []byte) ([]byte, error) {
+	f, e := makeTempFile(body)
+	if e != nil {
+		return nil, e
+	}
+	logrus.Info(f)
+
+	cmd := viper.GetString("gocmd")
+	out, e := exec.Command(cmd, "run", f).CombinedOutput()
+
+	if e != nil {
+		logrus.Info(e.Error)
+		logrus.Info(string(out))
+		return nil, fmt.Errorf("%s - %s", e.Error(), string(out))
+	}
+	logrus.Info(string(out))
+
+	return out, nil
 }

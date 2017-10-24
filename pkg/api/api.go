@@ -13,7 +13,7 @@ import (
 func Start(wg *sync.WaitGroup) {
 	e := echo.New()
 	e.Static("/", "app/dist")
-	//e.POST("api/go/lint", Lint)
+	e.POST("api/go/lint", Lint)
 	e.POST("api/go/fmt", Format)
 	e.POST("api/go/run", Run)
 	e.Logger.Error(e.Start(":1323"))
@@ -37,5 +37,13 @@ func Format(c echo.Context) error {
 }
 
 func Run(c echo.Context) error {
-	return c.String(http.StatusOK, "Run")
+	b, e := ioutil.ReadAll(c.Request().Body)
+	if e != nil {
+		return c.String(http.StatusInternalServerError, e.Error())
+	}
+	f, e := host.Run(b)
+	if e != nil {
+		return c.String(http.StatusInternalServerError, e.Error())
+	}
+	return c.String(http.StatusOK, string(f))
 }
